@@ -1,27 +1,30 @@
 <?php 
 session_start();
 include 'class_carte.php'; 
-
-var_dump($nb_cartes);
+// session_destroy();
     if(isset($_GET["choix"], $_GET["selecteur"]) && !isset($nb_cartes))
-        {
-            echo 'toto';
+        {            
             $_SESSION["nb_paires"] = $_GET["selecteur"]; 
             $_SESSION["nb_cartes"] = [];
             $_SESSION["carte_retourne"] = [];
             $_SESSION["carte_etat"] = [];           
 
-            if(empty($_SESSION["nb_cartes"]))
-                {        
-                    echo 'OZFAE';
+            var_dump($_SESSION["nb_cartes"]);
+            if(empty($_SESSION["nb_cartes"]) && empty($_SESSION["carte_etat"]))
+                {      
+                    echo'toto';                      
                     for($i = 0; $i<$_SESSION["nb_paires"]; $i++)     
                         {                    
                             $carte = new Carte;                    
                             array_push($_SESSION["nb_cartes"], $carte->getId());
                             array_push($_SESSION["carte_etat"], $carte->getEtat());   
                         }         
-                    shuffle($_SESSION["nb_cartes"]);                 
-                }                                                       
+                        var_dump($_SESSION["nb_cartes"]);
+                    shuffle($_SESSION["nb_cartes"]);   
+                    var_dump($_SESSION["nb_cartes"]);              
+                }   
+            else
+                echo 'pouet';
         }        
     
     if(isset($_SESSION["nb_paires"]))   
@@ -46,7 +49,7 @@ var_dump($nb_cartes);
                                 }
                         }      
                 }
-                var_dump($_SESSION["nb_cartes"]);   
+                // var_dump($_SESSION["nb_cartes"]);   
         }                                                                                                                      
 ?>
 
