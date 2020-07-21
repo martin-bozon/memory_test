@@ -19,9 +19,7 @@ session_start();
 
             for($i = 1; $i<=$_SESSION["nb_paires"]; $i++)
                 {
-                    array_push($_SESSION["carte"], new Carte($i), new Carte($i));
-                    // $doublon = $i + $_SESSION["nb_paires"];
-                    // array_push($_SESSION["carte"], new Carte ($doublon));
+                    array_push($_SESSION["carte"], new Carte($i), new Carte($i));                   
                 }
                 var_dump($_SESSION["carte"]);
         }
