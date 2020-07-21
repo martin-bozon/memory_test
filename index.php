@@ -44,11 +44,11 @@ session_start();
                             </form>
                             <?php    
                         }   
-                    else if($_SESSION["carte"][$i]->getEtat() == 2)
+                    else if($_SESSION["carte"][$i]->getEtat() == 2)//Supprime les cartes si la paires est trouvée
                         {
                             echo '';
                         }
-                    else
+                    else//Affiche la valeur de la carte si son état est à 1
                         {                           
                             echo $_SESSION["carte"][$i]->getValeur();                                                      
                         }
@@ -66,15 +66,18 @@ session_start();
                                         {                                           
                                             $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->winEtat();
                                             $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->winEtat();                                                                           
-                                           
+                                            var_dump($_SESSION["carte_retourne"]);
                                             $_SESSION["carte_retourne"] = [];
                                         }
                                     else if(count($_SESSION["carte_retourne"]) == 2 && $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->getValeur() != $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->getValeur())
                                         {
                                             $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->resetEtat();
                                             $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->resetEtat();
+                                            // $_SESSION["carte_retourne"][0] = $i;    
+                                            // $_SESSION["carte_retourne"][1] = -1; 
+                                            var_dump($_SESSION["carte_retourne"]);
                                             $_SESSION["carte_retourne"] = [];
-                                        }                                       
+                                        }                                        
                                 }                            
                         }   
                 }                      
