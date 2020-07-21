@@ -26,7 +26,7 @@
                     return ($this->etat);
                 }
             //Set l'état de la carte à 2 quand la paire est trouvé
-            public function endEtat()
+            public function winEtat()
                 {
                     $this->etat = 2;
                     return ($this->etat);
