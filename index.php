@@ -7,8 +7,8 @@ session_start();
             session_destroy();
             header('Location:index.php');
         }
-
-    if(!isset($_SESSION["carte"] ,$_SESSION["carte_retourne"]))//Crée des tableau vides
+//Crée des tableau vides s'ils n'existent pas déjà
+    if(!isset($_SESSION["carte"] ,$_SESSION["carte_retourne"]))
         {
             $_SESSION["carte"]= [];
             $_SESSION["carte_retourne"] = [];
@@ -22,14 +22,10 @@ session_start();
             for($i = 1; $i<=$_SESSION["nb_paires"]; $i++)
                 {
                     array_push($_SESSION["carte"], new Carte($i), new Carte($i));//Insertion des cartes en doublon dans le tableau              
-                }    
-           
+                }               
             shuffle($_SESSION["carte"]);//Melange le tableau qui contient toutes les cartes           
         }
-
-
 //------------------AFFICHAGE DU PLATEAU DE JEU
-
     if(isset($_SESSION["nb_paires"]))   
         {            
             ?>
@@ -87,24 +83,14 @@ session_start();
                     else if(count($_SESSION["carte_trouve"]) == (($_SESSION["nb_paires"]*2) - 2) && count($_SESSION["carte_retourne"]) == 2)
                         {
                             //Rajouter le temps ou le nombre de coups
-                            echo 'Bien joué !';
-                            /*?>
-                            <form action="index.php" method="GET">
-                                <input type="submit" name="deco" value="reset">
-                            </form>
-                            <?php*/
+                            echo 'Bien joué !';                           
                             break;
                         }
                     else//Affiche la valeur de la carte si son état est à 1
                         {                           
                             echo $_SESSION["carte"][$i]->getValeur();                                                      
-                        }
-                        
-                }                      
-                // var_dump($_SESSION["carte_trouve"]);
-                // var_dump($_SESSION["carte_retourne"]);
-                // var_dump($_SESSION);
-                // var_dump($_POST);
+                        }                        
+                }                                    
             ?>
             </section>
             <form action="" method="GET">

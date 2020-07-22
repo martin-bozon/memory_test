@@ -1,15 +1,11 @@
 <?php
     class Carte
-        {
-            private static $current_id = 1;
-            private $id;
+        {           
             private $valeur;
             private $etat;
 
             function __construct($i)
                 {
-                    $this->id = self::$current_id;
-                    self::$current_id++;
                     $this->etat = 0;      
                     $this->valeur = $i;                              
                 }
@@ -40,11 +36,7 @@
             public function getEtat()
                 {
                     return($this->etat);
-                }
-            public function getId()
-                {
-                    return($this->id);
-                }       
+                }           
             public function getValeur()    
                 {
                     return ($this->valeur);
