@@ -34,13 +34,51 @@ session_start();
             ?>
             <section id="plateau">
             <?php
+
+            if(isset($_POST[0]))
+                {                            
+                    $_SESSION["carte"][$_POST[0]]->setEtat();//Set l'état de la carte à 1
+                    // echo $_SESSION["carte"][$i]->getValeur();
+                    if($_SESSION["carte"][$_POST[0]]->getEtat() == 1)//Affiche la "valeur" de la carte
+                        {                
+                            //Reset l'état des cartes à 0 si elles n'ont pas la même valeur
+                            if(count($_SESSION["carte_retourne"]) == 2 && $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->getValeur() != $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->getValeur())
+                                {
+                                    $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->resetEtat();
+                                    $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->resetEtat();
+                                    // $_SESSION["carte_retourne"][0] = $i;    
+                                    // $_SESSION["carte_retourne"][1] = -1; 
+                                    //var_dump($_SESSION["carte_retourne"]);
+                                    $_SESSION["carte_retourne"] = [];
+                                }                                        
+                            //Set l'état des cartes à 2 si elles ont les mêmes valeurs
+                            if(count($_SESSION["carte_retourne"]) == 2 && $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->getValeur() == $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->getValeur())
+                                {                     
+                                    //echo 'GAGNE';                      
+                                    $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->winEtat();
+                                    $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->winEtat();                                                                           
+                                    //var_dump($_SESSION["carte_retourne"]);
+                                    $_SESSION["carte_retourne"] = [];
+
+                                }
+                            //Push dans le tableau maximum 2 cartes pour checker leur valeur par la suite
+                            if(empty($_SESSION["carte_retourne"]) || (count($_SESSION["carte_retourne"]) == 1))//Rempli le tableau si il est vide ou si il y'a déjà une ligne                            
+                                {
+                                    array_push($_SESSION["carte_retourne"], $_POST[0]);//Insére la valeur de la carte dans le tableau des cartes retournées
+                                    // var_dump($_SESSION["carte_retourne"]);
+
+                                }
+                            
+                        }                            
+                }
+
             for($i = 0; $i<($_SESSION["nb_paires"]*2); $i++)//Affiche le bon nombre de cartes sur le plateau                  
                 {   
-                    if($_SESSION["carte"][$i]->getEtat() == 0 && !isset($_POST[$i]))//Affiche la carte "face cachée"
+                    if($_SESSION["carte"][$i]->getEtat() == 0 )//Affiche la carte "face cachée"
                         {
                             ?>
                             <form action="index.php" method="POST">
-                                <input type="submit" name="<?= $i?>" id="" value="<?= $i ?>">
+                                <input type="submit" name="<?= 0?>" id="" value="<?= $i ?>">
                             </form>
                             <?php    
                         }   
@@ -52,37 +90,11 @@ session_start();
                         {                           
                             echo $_SESSION["carte"][$i]->getValeur();                                                      
                         }
-                    if(isset($_POST[$i]))
-                        {                            
-                            $_SESSION["carte"][$i]->setEtat();//Set l'état de la carte à 1
-                            // echo $_SESSION["carte"][$i]->getValeur();
-                            if($_SESSION["carte"][$i]->getEtat() == 1)//Affiche la "valeur" de la carte
-                                {                                                                       
-                                    if(empty($_SESSION["carte_retourne"]) || (count($_SESSION["carte_retourne"]) == 1))//Rempli le tableau si il est vide ou si il y'a déjà une ligne                            
-                                        {
-                                            array_push($_SESSION["carte_retourne"], $i);//Insére la valeur de la carte dans le tableau des cartes retournées
-                                        }
-                                    if(count($_SESSION["carte_retourne"]) == 2 && $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->getValeur() == $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->getValeur())
-                                        {                                           
-                                            $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->winEtat();
-                                            $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->winEtat();                                                                           
-                                            var_dump($_SESSION["carte_retourne"]);
-                                            $_SESSION["carte_retourne"] = [];
-                                        }
-                                    else if(count($_SESSION["carte_retourne"]) == 2 && $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->getValeur() != $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->getValeur())
-                                        {
-                                            $_SESSION["carte"][$_SESSION["carte_retourne"][0]]->resetEtat();
-                                            $_SESSION["carte"][$_SESSION["carte_retourne"][1]]->resetEtat();
-                                            // $_SESSION["carte_retourne"][0] = $i;    
-                                            // $_SESSION["carte_retourne"][1] = -1; 
-                                            var_dump($_SESSION["carte_retourne"]);
-                                            $_SESSION["carte_retourne"] = [];
-                                        }                                        
-                                }                            
-                        }   
+                        
                 }                      
-                var_dump($_SESSION["carte_retourne"]);
-                var_dump($_SESSION);
+                // var_dump($_SESSION["carte_retourne"]);
+                // var_dump($_SESSION);
+                // var_dump($_POST);
             ?>
             </section>
             <?php                         
